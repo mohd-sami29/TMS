@@ -1,11 +1,22 @@
-import React from 'react';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
-import BadgeIcon from '@mui/icons-material/Badge';
-import HomeIcon from '@mui/icons-material/Home';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar, } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import BadgeIcon from "@mui/icons-material/Badge";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import AddAlertIcon from "@mui/icons-material/AddAlert";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ collapsed }) => {
   const drawerWidth = collapsed ? 70 : 240;
+
+  const items = [
+    { icon: <HomeIcon />, text: "Home", path: "/" },
+    { icon: <BadgeIcon />, text: "Employee", path: "/employee" },
+    { icon: <FormatListBulletedIcon />, text: "Master", path: "/master" },
+    { icon: <GroupAddIcon />, text: "Team", path: "/team" },
+    { icon: <AddAlertIcon />, text: "Alert", path: "/alert" },
+  ];
 
   return (
     <Drawer
@@ -15,46 +26,34 @@ const Sidebar = ({ collapsed }) => {
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
-          boxSizing: 'border-box',
-          transition: 'width 0.3s ease-in-out',
-          overflowX: 'hidden',
+          boxSizing: "border-box",
+          transition: "width 0.3s ease-in-out",
+          overflowX: "hidden",
         },
       }}
     >
       <Toolbar />
       <List>
-        <ListItem
-          button
-          component={Link}
-          to="/"
-          sx={{ justifyContent: collapsed ? 'center' : 'flex-start' }}
-        >
-          <ListItemIcon sx={{ minWidth: 0, justifyContent: 'center' }}>
-            <HomeIcon />
-          </ListItemIcon>
-          {!collapsed && (
-            <ListItemText
-              primary="Home"
-              sx={{ textAlign: 'center' }}
-            />
-          )}
-        </ListItem>
-        <ListItem
-          button
-          component={Link}
-          to="/employee"
-          sx={{ justifyContent: collapsed ? 'center' : 'flex-start' }}
-        >
-          <ListItemIcon sx={{ minWidth: 0, justifyContent: 'center' }}>
-            <BadgeIcon />
-          </ListItemIcon>
-          {!collapsed && (
-            <ListItemText
-              primary="Employee"
-              sx={{ textAlign: 'center' }}
-            />
-          )}
-        </ListItem>
+        {items &&
+          items.map((item, index) => (
+            <ListItem
+              key={index}
+              // button
+              component={Link}
+              to={item.path}
+              sx={{ justifyContent: collapsed ? "center" : "flex-start" }}
+            >
+              <ListItemIcon sx={{ minWidth: 0, justifyContent: "center" }}>
+                {item.icon}
+              </ListItemIcon>
+              {!collapsed && (
+                <ListItemText
+                  secondary={item.text}
+                  sx={{ textAlign: "start", ml:3}}
+                />
+              )}
+            </ListItem>
+          ))}
       </List>
     </Drawer>
   );
